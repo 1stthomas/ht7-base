@@ -1,0 +1,5 @@
+/nbproject/
+/vendor/
+/tests/configuration.xml
+/tests/test.bat
+/tests/bootstrap.php
