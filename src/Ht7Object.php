@@ -18,20 +18,27 @@ class Ht7Object
      * @param type $args
      * @return type
      * @throws BadMethodCallException
-     * 
-     * @assert ('setTest', 'test') == false
      */
     public function __call($name, $args)
     {
-        if ($this->isCallGet($name) && $this->hasVarByMethodName($name)) {
-            return $this->handleCallGet($name);
-        } elseif ($this->isCallSet($name) && $this->hasVarByMethodName($name)) {
-            return $this->handleCallSet($name, $args);
-        } else {
-            $msg = 'The method ' . $name . ' is not supported.';
-            // original PHP message: "Call to undefined method XYZ at [line no]"
-            throw new BadMethodCallException($msg);
+        if (strlen($name) > 3) {
+            $varRequest  = lcfirst(substr($name, 3));
+            
+            if ($this->isCallGet($name)) {
+                if ($this->hasVar($varRequest)) {
+                    return $this->$varRequest;
+                }
+            } elseif ($this->isCallSet($name)) {
+                if ($this->hasVar($varRequest)) {
+                    $this->$varRequest = $args[0];
+                    return;
+                }
+            }
         }
+        
+        $msg = 'The method ' . $name . ' is not supported.';
+        // original PHP message: "Call to undefined method XYZ at [line no]"
+        throw new BadMethodCallException($msg);
     }
     
     /**
@@ -45,42 +52,7 @@ class Ht7Object
     {
         $vars = get_class_vars(static::class);
         
-        foreach ($vars as $key => $var) {
-            if ($name === $key) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Check if a variable exists from a getXXX or setYYY method name.
-     * 
-     * @param   string  $methodName     The method name from which the property
-     *                                  name will be retrived.
-     * @return  boolean                 True if a property with the specified
-     *                                  name by the submitted method name exists.
-     */
-    protected function hasVarByMethodName($methodName)
-    {
-        $varRequest  = lcfirst(substr($methodName, 3));
-        
-        return $this->hasVar($varRequest);
-    }
-    
-    protected function handleCallGet($name)
-    {
-        $var = strtolower(substr($name, 3));
-        
-        return $this->$var;
-    }
-    
-    protected function handleCallSet($name, array $args)
-    {
-        $var = strtolower(substr($name, 3));
-        
-        $this->$var = $args[0];
+        return key_exists($name, $vars);
     }
     
     protected function isCallGet($name)
