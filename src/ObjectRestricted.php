@@ -264,13 +264,13 @@ class ObjectRestricted implements Serializable, JsonSerializable
         return $arr;
     }
 
-    protected function toArrayWithout(array $arr = [])
+    protected function toArrayWithout(array $vars, array $arr = [])
     {
-        $vars = get_object_vars($this);
-
         foreach ($vars as $key => $value) {
             $arr[$key] = $value;
         }
+
+        return $arr;
     }
 
 }
