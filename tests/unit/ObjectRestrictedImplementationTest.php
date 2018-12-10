@@ -88,6 +88,47 @@ class ObjectRestrictedImplementationTest extends TestCase
         }
     }
 
+    /**
+     * Test the object restricted options instance.
+     *
+     * @covers Ht7\Base\Tests\ObjectRestrictedImplementation::getOrOptions
+     * @dataProvider optionsProvider
+     */
+    public function testGetOrOptions($args)
+    {
+        if ($args['assert'] === 'eq') {
+            $opt = $this->object->getOrOptions();
+
+            $expVars = [];
+            if (isset($args['param']['exportVars'])) {
+                $param = $args['param'];
+                $expVars = $param['exportVars'];
+                unset($param['exportVars']);
+                unset($param['hasExportVars']);
+            }
+
+            foreach ($param as $name => $value) {
+                $opt->$name = $value;
+            }
+
+            $opt->setExportVars($expVars);
+
+            $opt2 = $this->object->getOrOptions();
+            $opt2Values = $opt2->jsonSerialize();
+
+            if ($args['eq'] === 'param') {
+                $this->assertEquals($args['param'], $opt2Values);
+            } else {
+                $this->assertEquals($args['eq'], $opt2Values);
+            }
+        }
+    }
+
+//    public function testSerialize()
+//    {
+//
+//    }
+
     public function callProvider()
     {
         return [
@@ -137,6 +178,28 @@ class ObjectRestrictedImplementationTest extends TestCase
                     'assert' => 'exception'
                 ]
             ],
+        ];
+    }
+
+    public function optionsProvider()
+    {
+        return [
+            'Check of the options class' => [
+                [
+                    'assert' => 'eq',
+                    'param' => [
+                        'exportVars' => [
+                            'firstName',
+                            'name'
+                        ],
+                        'hasExportVars' => true,
+                        'hasMethodRestriction' => true,
+                        'hasVarRestriction' => true,
+                        'lockProperties' => false
+                    ],
+                    'eq' => 'param'
+                ]
+            ]
         ];
     }
 

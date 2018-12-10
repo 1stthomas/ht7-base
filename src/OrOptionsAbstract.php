@@ -2,14 +2,17 @@
 
 namespace Ht7\Base;
 
+use \InvalidArgumentException;
 use \OutOfBoundsException;
+use \JsonSerializable;
+use \Serializable;
 
 /**
  * Description of OrOptionsAbstract
  *
  * @author 1stthomas
  */
-abstract class OrOptionsAbstract implements OrOptionsInterface
+abstract class OrOptionsAbstract implements JsonSerializable, OrOptionsInterface, Serializable
 {
 
     /**
@@ -99,6 +102,21 @@ abstract class OrOptionsAbstract implements OrOptionsInterface
     }
 
     /**
+     * Return an array with predefined object properties. Called by
+     * <code>json_encode()</code> which transforms the value into an json string.
+     *
+     * @return  array
+     */
+    public function jsonSerialize()
+    {
+        $arr = get_object_vars($this);
+
+        $arr['exportVars'] = $this->getExportVars();
+
+        return $arr;
+    }
+
+    /**
      * Load the object properties from array.
      *
      * @param   array   $data
@@ -117,10 +135,48 @@ abstract class OrOptionsAbstract implements OrOptionsInterface
     /**
      * {@inheritDoc}
      */
+    public function serialize()
+    {
+        return serialize($this->jsonSerialize());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setExportVars(array $arr)
     {
         $this->exportVars = $arr;
         $this->hasExportVars = true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($data)
+    {
+        if (is_string($data)) {
+            $unserialized = unserialize($data);
+
+            $vars = get_object_vars($this);
+            $names = array_keys($vars);
+
+            foreach ($unserialized as $name => $value) {
+                if (in_array($name, $names)) {
+                    $this->$name = $value;
+                } else {
+                    $msg = 'Found unsupported property %s';
+                    $e = sprintf($msg, $name);
+
+                    throw new InvalidArgumentException($e);
+                }
+            }
+        } else {
+            $msg = 'Wrong data type. String needed, ';
+            $msg .= 'found %s.';
+            $e = sprintf($msg, gettype($data));
+
+            throw new InvalidArgumentException($e);
+        }
     }
 
 }
