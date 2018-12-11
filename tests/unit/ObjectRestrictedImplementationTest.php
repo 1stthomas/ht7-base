@@ -88,47 +88,6 @@ class ObjectRestrictedImplementationTest extends TestCase
         }
     }
 
-    /**
-     * Test the object restricted options instance.
-     *
-     * @covers Ht7\Base\Tests\ObjectRestrictedImplementation::getOrOptions
-     * @dataProvider optionsProvider
-     */
-    public function testGetOrOptions($args)
-    {
-        if ($args['assert'] === 'eq') {
-            $opt = $this->object->getOrOptions();
-
-            $expVars = [];
-            if (isset($args['param']['exportVars'])) {
-                $param = $args['param'];
-                $expVars = $param['exportVars'];
-                unset($param['exportVars']);
-                unset($param['hasExportVars']);
-            }
-
-            foreach ($param as $name => $value) {
-                $opt->$name = $value;
-            }
-
-            $opt->setExportVars($expVars);
-
-            $opt2 = $this->object->getOrOptions();
-            $opt2Values = $opt2->jsonSerialize();
-
-            if ($args['eq'] === 'param') {
-                $this->assertEquals($args['param'], $opt2Values);
-            } else {
-                $this->assertEquals($args['eq'], $opt2Values);
-            }
-        }
-    }
-
-//    public function testSerialize()
-//    {
-//
-//    }
-
     public function callProvider()
     {
         return [
@@ -181,6 +140,42 @@ class ObjectRestrictedImplementationTest extends TestCase
         ];
     }
 
+    /**
+     * Test the object restricted options instance.
+     *
+     * @covers Ht7\Base\Tests\ObjectRestrictedImplementation::getOrOptions
+     * @dataProvider optionsProvider
+     */
+    public function testGetOrOptions($args)
+    {
+        if ($args['assert'] === 'eq') {
+            $opt = $this->object->getOrOptions();
+
+            $expVars = [];
+            if (isset($args['param']['exportVars'])) {
+                $param = $args['param'];
+                $expVars = $param['exportVars'];
+                unset($param['exportVars']);
+                unset($param['hasExportVars']);
+            }
+
+            foreach ($param as $name => $value) {
+                $opt->$name = $value;
+            }
+
+            $opt->setExportVars($expVars);
+
+            $opt2 = $this->object->getOrOptions();
+            $opt2Values = $opt2->jsonSerialize();
+
+            if ($args['eq'] === 'param') {
+                $this->assertEquals($args['param'], $opt2Values);
+            } else {
+                $this->assertEquals($args['eq'], $opt2Values);
+            }
+        }
+    }
+
     public function optionsProvider()
     {
         return [
@@ -198,6 +193,78 @@ class ObjectRestrictedImplementationTest extends TestCase
                         'lockProperties' => false
                     ],
                     'eq' => 'param'
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Test the object restricted serialization behavior.
+     *
+     * @covers Ht7\Base\Tests\ObjectRestrictedImplementation::serialize
+     * @dataProvider serializeProvider
+     */
+    public function testSerialize($assert, $args)
+    {
+        if ($assert === 'eq') {
+            if (isset($args['option'])) {
+                $opt = $this->object->getOrOptions();
+
+                if (isset($args['option']['exportVars'])) {
+                    $opt->setExportVars($args['option']['exportVars']);
+                    unset($args['option']['exportVars']);
+                }
+
+                foreach ($args['option'] as $name => $value) {
+                    $opt->$name = $value;
+                }
+            }
+
+            if (isset($args['do'])) {
+                if ($args['do'] === 'double') {
+                    $str1 = serialize($this->object);
+                    $objTmp = unserialize($str1);
+                    $str2 = serialize($objTmp);
+                }
+            } else {
+                $str2 = serialize($this->object);
+            }
+
+            $this->assertEquals($args['eq'], $str2);
+        }
+    }
+
+    public function serializeProvider()
+    {
+        return [
+            [
+                'eq',
+                [
+                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":214:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:5:{s:13:"hasExportVars";b:0;s:20:"hasMethodRestriction";b:0;s:17:"hasVarRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:0:{}}}}'
+                ]
+            ],
+            [
+                'eq',
+                [
+                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":269:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:5:{s:13:"hasExportVars";b:1;s:20:"hasMethodRestriction";b:0;s:17:"hasVarRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:3:{i:0;s:9:"firstName";i:1;s:4:"name";i:2;s:9:"orOptions";}}}}',
+                    'option' => [
+                        'exportVars' => [
+                            'firstName',
+                            'name',
+                            'orOptions'
+                        ]
+                    ]
+                ],
+                [
+                    'do' => 'double',
+                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":269:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:5:{s:13:"hasExportVars";b:1;s:20:"hasMethodRestriction";b:0;s:17:"hasVarRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:3:{i:0;s:9:"firstName";i:1;s:4:"name";i:2;s:9:"orOptions";}}}}',
+                    'option' => [
+                        'exportVars' => [
+                            'firstName',
+                            'name',
+                            'orOptions'
+                        ]
+                    ]
                 ]
             ]
         ];

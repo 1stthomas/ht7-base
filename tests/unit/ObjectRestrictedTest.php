@@ -106,7 +106,7 @@ class ObjectRestrictedTest extends TestCase
         }
 
         if ($assert === 'eq') {
-            $assertVal = json_encode($args['eq']);
+            $assertVal = $args['eq'];
             $testVal = json_encode($this->object);
 
             $this->assertEquals($assertVal, $testVal);
@@ -119,7 +119,8 @@ class ObjectRestrictedTest extends TestCase
             [
                 'assert' => 'eq',
                 [
-                    'eq' => []
+                    'eq' => '{"orOptions":{"hasExportVars":false,"hasMethodRestriction":false,"hasVarRestriction":false,"lockProperties":true,"exportVars":[]}}'
+//                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":214:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:5:{s:13:"hasExportVars";b:0;s:20:"hasMethodRestriction";b:0;s:17:"hasVarRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:0:{}}}}'
                 ]
             ],
             [
@@ -129,10 +130,7 @@ class ObjectRestrictedTest extends TestCase
                         'test' => 'test01',
                         'test2' => 'test02'
                     ],
-                    'eq' => [
-                        'test' => 'test01',
-                        'test2' => 'test02'
-                    ]
+                    'eq' => '{"test":"test01","test2":"test02","orOptions":{"hasExportVars":false,"hasMethodRestriction":false,"hasVarRestriction":false,"lockProperties":true,"exportVars":[]}}'
                 ]
             ]
         ];
@@ -163,6 +161,7 @@ class ObjectRestrictedTest extends TestCase
             $option->lockProperties = false;
 
             $assertVal = $args[$assert] == 'param' ? $args['param'] : $args[$assert];
+
             $this->object->load($args['param']);
 
             $this->assertEquals($assertVal, $this->object->jsonSerialize());
@@ -181,6 +180,10 @@ class ObjectRestrictedTest extends TestCase
                 [
                     'eq' => 'param',
                     'option' => [
+                        'exportVars' => [
+                            'name',
+                            'firstName'
+                        ],
                         'lockProperties' => false
                     ],
                     'param' => [

@@ -19,24 +19,28 @@ class OrOptionsFactory
     {
         $data = ['lockProperties' => false];
 
-        return new class (['lockProperties' => false]) extends OrOptionsAbstract
-        {
+        return new class ($data) extends OrOptionsAbstract {};
+    }
 
-        };
-        }
+    /**
+    * Return an options instance with restricted mode.
+    *
+    * @return  OrOptionsAbstract
+    */
+    public static function getOrOptionRestricted()
+    {
+        return new class() extends OrOptionsAbstract {};
+    }
 
-        /**
-         * Return an options instance with restricted mode.
-         *
-         * @return  OrOptionsAbstract
-         */
-        public static function getOrOptionRestricted()
-        {
-        return new class() extends OrOptionsAbstract
-        {
+    /**
+    * Return an options instance with custom options.
+    *
+    * @param   array $data      The options to set.
+    * @return  OrOptionsAbstract
+    */
+    public static function getOrOptionWithProperties($data)
+    {
+        return new class($data) extends OrOptionsAbstract {};
+    }
 
-        };
-        }
-
-        }
-
+}
