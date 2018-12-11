@@ -8,6 +8,7 @@ use \JsonSerializable;
 use \OutOfBoundsException;
 use \Serializable;
 use Ht7\Base\OrOptionsInterface;
+use Ht7\Base\OrOptionsFactory;
 
 class ObjectRestricted implements Serializable, JsonSerializable
 {
@@ -99,15 +100,20 @@ class ObjectRestricted implements Serializable, JsonSerializable
      */
     public function jsonSerialize()
     {
-        $orOptions = $this->getOrOptions();
+        $orOptions = clone $this->getOrOptions();
         $vars = get_object_vars($this);
         unset($vars['orOptions']);
 
         if ($orOptions->hasExportVars) {
             $exportVars = $orOptions->getExportVars();
             $arr = $this->toArrayWith($vars, $exportVars);
+
+            if (in_array('orOptions', $exportVars)) {
+                $arr['orOptions'] = $orOptions->jsonSerialize();
+            }
         } else {
-            $arr = $this->toArrayWithout($vars);
+            $arr = $vars;
+            $arr['orOptions'] = $orOptions->jsonSerialize();
         }
 
         return $arr;
@@ -127,7 +133,7 @@ class ObjectRestricted implements Serializable, JsonSerializable
         } elseif (is_array($data) || is_object($data)) {
             $this->loadObject($data);
         } else {
-            throw new Exception('Wrong data type: ' . gettype($data) . ' found - array or string needed', E_USER_ERROR);
+            throw new Exception('Wrong data type: found ' . gettype($data) . ' - array or string needed', E_USER_ERROR);
         }
     }
 
@@ -139,10 +145,17 @@ class ObjectRestricted implements Serializable, JsonSerializable
      */
     public function loadObject($data)
     {
-        $exportVars = $this->orOptions->getExportVars();
+        if (isset($data['orOptions'])) {
+            $orOptions = OrOptionsFactory::getOrOptionWithProperties($data['orOptions']);
+            $this->setOrOptions($orOptions);
+            unset($data['orOptions']);
+        } else {
+            $orOptions = $this->getOrOptions();
+        }
         $arr = [];
 
-        if ($this->orOptions->hasExportVars) {
+        if ($orOptions->hasExportVars) {
+            $exportVars = $orOptions->getExportVars();
             $this->loadObjectWith($data, $exportVars, $arr);
         } else {
             $this->loadObjectWithout($data, $arr);
@@ -259,15 +272,6 @@ class ObjectRestricted implements Serializable, JsonSerializable
                     $arr[$name] = $value;
                 }
             }
-        }
-
-        return $arr;
-    }
-
-    protected function toArrayWithout(array $vars, array $arr = [])
-    {
-        foreach ($vars as $key => $value) {
-            $arr[$key] = $value;
         }
 
         return $arr;
