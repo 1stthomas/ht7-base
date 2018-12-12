@@ -106,9 +106,8 @@ class OrOptionsFactoryTest extends TestCase
                 [
                     'eq' => [
                         'exportVars' => [],
-                        'hasVarRestriction' => false,
+                        'hasExportVars' => false,
                         'hasMethodRestriction' => false,
-                        'hasVarRestriction' => false,
                         'lockProperties' => true
                     ],
                     'type' => 'getOrOptionRestricted'
@@ -119,9 +118,8 @@ class OrOptionsFactoryTest extends TestCase
                 [
                     'eq' => [
                         'exportVars' => [],
-                        'hasVarRestriction' => false,
+                        'hasExportVars' => false,
                         'hasMethodRestriction' => false,
-                        'hasVarRestriction' => false,
                         'lockProperties' => false
                     ],
                     'type' => 'getOrOptionDefault'
@@ -135,9 +133,8 @@ class OrOptionsFactoryTest extends TestCase
                             'name' => 'TestName',
                             'firstName' => 'TestFristName'
                         ],
-                        'hasVarRestriction' => true,
+                        'hasExportVars' => true,
                         'hasMethodRestriction' => true,
-                        'hasVarRestriction' => true,
                         'lockProperties' => false
                     ],
                     'eq' => 'param',
@@ -152,9 +149,8 @@ class OrOptionsFactoryTest extends TestCase
                             'name' => 'TestName',
                             'firstName' => 'TestFristName'
                         ],
-                        'hasVarRestriction' => true,
+                        'hasExportVars' => true,
                         'hasMethodRestriction' => true,
-                        'hasVarRestriction' => true,
                         'lockProperties' => false,
                         'inexistent' => false
                     ],

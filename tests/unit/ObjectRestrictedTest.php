@@ -119,8 +119,7 @@ class ObjectRestrictedTest extends TestCase
             [
                 'assert' => 'eq',
                 [
-                    'eq' => '{"orOptions":{"hasExportVars":false,"hasMethodRestriction":false,"hasVarRestriction":false,"lockProperties":true,"exportVars":[]}}'
-//                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":214:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:5:{s:13:"hasExportVars";b:0;s:20:"hasMethodRestriction";b:0;s:17:"hasVarRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:0:{}}}}'
+                    'eq' => '{"orOptions":{"hasExportVars":false,"hasMethodRestriction":false,"lockProperties":true,"exportVars":[]}}'
                 ]
             ],
             [
@@ -130,7 +129,7 @@ class ObjectRestrictedTest extends TestCase
                         'test' => 'test01',
                         'test2' => 'test02'
                     ],
-                    'eq' => '{"test":"test01","test2":"test02","orOptions":{"hasExportVars":false,"hasMethodRestriction":false,"hasVarRestriction":false,"lockProperties":true,"exportVars":[]}}'
+                    'eq' => '{"test":"test01","test2":"test02","orOptions":{"hasExportVars":false,"hasMethodRestriction":false,"lockProperties":true,"exportVars":[]}}'
                 ]
             ]
         ];

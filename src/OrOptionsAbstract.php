@@ -35,14 +35,6 @@ abstract class OrOptionsAbstract implements JsonSerializable, OrOptionsInterface
     public $hasMethodRestriction = false;
 
     /**
-     * Set this property to true to restrict the import/export
-     * to variables with an explicit class variable declaration.
-     *
-     * @var     boolean     True if the variable restriction is activated.
-     */
-    public $hasVarRestriction = false;
-
-    /**
      * Set this property to true to avoid adding undefined
      * properties to the \Ht7\Base\ObjectRestricted instance.
      *
