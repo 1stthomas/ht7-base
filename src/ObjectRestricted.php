@@ -152,13 +152,13 @@ class ObjectRestricted implements Serializable, JsonSerializable
         } else {
             $orOptions = $this->getOrOptions();
         }
-        $arr = [];
 
-        if ($orOptions->hasExportVars) {
-            $exportVars = $orOptions->getExportVars();
-            $this->loadObjectWith($data, $exportVars, $arr);
+        $exportVars = $orOptions->getExportVars();
+
+        if ($orOptions->hasExportVars && !empty($exportVars)) {
+            $this->loadObjectWith($data, $exportVars);
         } else {
-            $this->loadObjectWithout($data, $arr);
+            $this->loadObjectWithout($data);
         }
     }
 
@@ -240,36 +240,80 @@ class ObjectRestricted implements Serializable, JsonSerializable
         return strpos($name, 'set') === 0;
     }
 
-    protected function loadObjectWith(array $data, array $exportVars, array $arr = [])
+    /**
+     * Load the current instance with the submitted data.
+     *
+     * If the method restriction is activated, only the properties with a
+     * corresponding set-method will be assigned. Otherwise the related set-
+     * method will be used if present, if not, the property will be assigned
+     * directly.<br />
+     * Only properties listed in the <code>$exportVars</code> array will be
+     * assigned to the current instance.
+     *
+     * @param   array   $data           An assoc array with the properties to
+     *                                  assign to this object.
+     * @param   array   $exportVars     Indexed array with the property names
+     *                                  which should be assigned to this instance.
+     */
+    protected function loadObjectWith(array $data, array $exportVars = [])
+    {
+        if ($this->getOrOptions()->hasMethodRestriction) {
+            // Load only the properties with a defined set-method.
+            foreach ($data as $name => $value) {
+                $methodName = 'set' . ucfirst($name);
+                if (in_array($name, $exportVars) && method_exists($this, $methodName)) {
+                    $this->$methodName($value);
+                }
+            }
+        } else {
+            // Use the set-method if present, otherwise set the property directly.
+            foreach ($data as $name => $value) {
+                if (in_array($name, $exportVars)) {
+                    $methodName = 'set' . ucfirst($name);
+                    if (method_exists($this, $methodName)) {
+                        $this->$methodName($value);
+                    } else {
+                        $this->$name = $value;
+                    }
+                }
+            }
+        }
+    }
+
+    protected function loadObjectWithout(array $data)
     {
         foreach ($data as $name => $value) {
-            if (in_array($name, $exportVars)) {
+            $methodName = 'set' . ucfirst($name);
+            if (method_exists($this, $methodName)) {
+                $this->$methodName($value);
+            } else {
                 $this->$name = $value;
             }
         }
-
-        return $arr;
-    }
-
-    protected function loadObjectWithout(array $data, array $arr = [])
-    {
-        foreach ($data as $name => $value) {
-            $this->$name = $value;
-        }
-
-        return $arr;
     }
 
     protected function toArrayWith(array $vars, array $exportVars, array $arr = [])
     {
+        $hasMethodRestriction = $this->getOrOptions()->hasMethodRestriction;
+
         if (empty($exportVars)) {
             foreach ($vars as $name => $value) {
-                $arr[$name] = $value;
+                $methodName = 'get' . ucfirst($name);
+                if (method_exists($this, $methodName)) {
+                    $arr[$name] = $this->$methodName();
+                } elseif (!$hasMethodRestriction) {
+                    $arr[$name] = $value;
+                }
             }
         } else {
             foreach ($vars as $name => $value) {
                 if (in_array($name, $exportVars)) {
-                    $arr[$name] = $value;
+                    $methodName = 'get' . ucfirst($name);
+                    if (method_exists($this, $methodName)) {
+                        $arr[$name] = $this->$methodName();
+                    } elseif (!$hasMethodRestriction) {
+                        $arr[$name] = $value;
+                    }
                 }
             }
         }

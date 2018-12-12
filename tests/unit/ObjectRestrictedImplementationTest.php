@@ -239,13 +239,13 @@ class ObjectRestrictedImplementationTest extends TestCase
             [
                 'eq',
                 [
-                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":214:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:4:{s:13:"hasExportVars";b:0;s:20:"hasMethodRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:0:{}}}}'
+                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":185:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:4:{s:13:"hasExportVars";b:0;s:20:"hasMethodRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:0:{}}}}'
                 ]
             ],
             [
                 'eq',
                 [
-                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":269:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:4:{s:13:"hasExportVars";b:1;s:20:"hasMethodRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:3:{i:0;s:9:"firstName";i:1;s:4:"name";i:2;s:9:"orOptions";}}}}',
+                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":240:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:4:{s:13:"hasExportVars";b:1;s:20:"hasMethodRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:3:{i:0;s:9:"firstName";i:1;s:4:"name";i:2;s:9:"orOptions";}}}}',
                     'option' => [
                         'exportVars' => [
                             'firstName',
@@ -256,7 +256,7 @@ class ObjectRestrictedImplementationTest extends TestCase
                 ],
                 [
                     'do' => 'double',
-                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":269:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:4:{s:13:"hasExportVars";b:1;s:20:"hasMethodRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:3:{i:0;s:9:"firstName";i:1;s:4:"name";i:2;s:9:"orOptions";}}}}',
+                    'eq' => 'C:61:"Ht7\Base\Tests\Implementations\ObjectRestrictedImplementation":240:{a:3:{s:9:"firstName";s:4:"John";s:4:"name";s:5:"Smith";s:9:"orOptions";a:4:{s:13:"hasExportVars";b:1;s:20:"hasMethodRestriction";b:0;s:14:"lockProperties";b:1;s:10:"exportVars";a:3:{i:0;s:9:"firstName";i:1;s:4:"name";i:2;s:9:"orOptions";}}}}',
                     'option' => [
                         'exportVars' => [
                             'firstName',
