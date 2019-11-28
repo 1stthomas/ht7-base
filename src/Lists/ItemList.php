@@ -17,6 +17,8 @@ class ItemList extends AbstractItemList
     public function add($item)
     {
         $this->items[] = $item;
+
+        return $this;
     }
 
 }

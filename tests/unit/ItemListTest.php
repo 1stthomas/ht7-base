@@ -43,8 +43,7 @@ class ItemListTest extends TestCase
     {
         $iL->add(null);
         $iL->add('one');
-        $iL->add('two');
-        $iL->add('two');
+        $iL->add('two')->add('two');
 
         $items = $iL->getAll();
 

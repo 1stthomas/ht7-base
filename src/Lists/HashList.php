@@ -30,6 +30,8 @@ class HashList extends AbstractItemList
 
             throw new InvalidArgumentException($e);
         }
+
+        return $this;
     }
 
 }

@@ -29,6 +29,7 @@ abstract class AbstractItemList implements Countable, IteratorAggregate
      * Add an item to the end of the list.
      *
      * @param   mixed   $item           The item to add.
+     * @return  AbstractItemList         The current instance.
      */
     public abstract function add($item);
 
