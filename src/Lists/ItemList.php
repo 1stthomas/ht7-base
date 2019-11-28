@@ -2,10 +2,6 @@
 
 namespace Ht7\Base\Lists;
 
-use \ArrayIterator;
-use \IteratorAggregate;
-use \Ht7\Base\Utility\Interfaces\ItemListable;
-
 /**
  * The AbstractItemList can be handled as an indexed array. It is accessable by
  * the foreach loop.
@@ -15,32 +11,20 @@ use \Ht7\Base\Utility\Interfaces\ItemListable;
 class ItemList extends AbstractItemList
 {
 
-    protected $items = [];
-
-    public function addItem(ItemListable $item)
+    public function addItem($item)
     {
-        $this->items[$item->getIdentifier()] = $item;
-    }
-
-    /**
-     * Get the item which meets the compare value.
-     *
-     * @param   mixed   $identifier         The compare value.
-     */
-    public function getItem($identifier)
-    {
-        return $this->items[$identifier];
+        $this->items[] = $item;
     }
 
     /**
      * Check if the item which matches the compare value is present in the
      * current item list.
      *
-     * @param   mixed   $identifier         The compare value.
+     * @param   mixed   $compare         The compare value.
      */
-    public function hasItem($identifier)
+    public function hasItem($compare)
     {
-        return isset($this->items[$identifier]);
+        return in_array($compare, $this->items);
     }
 
 }

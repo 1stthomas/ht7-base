@@ -4,7 +4,7 @@ namespace Ht7\Base\Lists;
 
 use \ArrayIterator;
 use \IteratorAggregate;
-use \Ht7\Base\Utility\Interfaces\ItemListable;
+use \Ht7\Base\Utility\Traits\CanLoadByAddItem;
 use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
 
 /**
@@ -16,18 +16,22 @@ use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
 abstract class AbstractItemList implements IteratorAggregate
 {
 
-    use CanRestrictInexVariables;
+    use CanRestrictInexVariables,
+        CanLoadByAddItem;
 
     protected $items = [];
 
-    public abstract function addItem(ItemListable $item);
+    public function __construct(array $data)
+    {
+        $this->load($data);
+    }
 
     /**
-     * Get the item which meets the compare value.
+     * Add an item to the end of the list.
      *
-     * @param   mixed   $cv             The compare value.
+     * @param   mixed   $item           The item to add.
      */
-    public abstract function getItem($cv);
+    public abstract function addItem($item);
 
     /**
      * Get the items of this list.
