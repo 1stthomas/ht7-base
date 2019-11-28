@@ -3,8 +3,8 @@
 namespace Ht7\Base\Lists;
 
 use \ArrayIterator;
+use \Countable;
 use \IteratorAggregate;
-use \Ht7\Base\Utility\Traits\CanLoadByAddItem;
 use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
 
 /**
@@ -13,15 +13,14 @@ use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
  *
  * @author Thomas Pluess
  */
-abstract class AbstractItemList implements IteratorAggregate
+abstract class AbstractItemList implements Countable, IteratorAggregate
 {
 
-    use CanRestrictInexVariables,
-        CanLoadByAddItem;
+    use CanRestrictInexVariables;
 
     protected $items = [];
 
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         $this->load($data);
     }
@@ -31,14 +30,35 @@ abstract class AbstractItemList implements IteratorAggregate
      *
      * @param   mixed   $item           The item to add.
      */
-    public abstract function addItem($item);
+    public abstract function add($item);
 
     /**
-     * Get the items of this list.
+     * Count elements of an object
+     *
+     * @return  integer                 The number of items in the present item list.
+     */
+    public function count()
+    {
+        return count($this->items);
+    }
+
+    /**
+     * Get the item with the present index.
+     *
+     * @param   mixed       $index
+     * @return  mixed
+     */
+    public function get($index)
+    {
+        return $this->items[$index];
+    }
+
+    /**
+     * Get all items of this list.
      *
      * @return  array
      */
-    public function getItems()
+    public function getAll()
     {
         return $this->items;
     }
@@ -57,10 +77,36 @@ abstract class AbstractItemList implements IteratorAggregate
     }
 
     /**
+     * Check if there is an item with the present index.
+     *
+     * @param   mixed   $index          The index to search the element with.
+     */
+    public function has($index)
+    {
+        return isset($this->items[$index]);
+    }
+
+    /**
      * Check if the item which matches the compare value is present in the
      * current item list.
      *
-     * @param   mixed   $cv             The compare value.
+     * @param   mixed   $compare         The compare value.
      */
-    public abstract function hasItem($cv);
+    public function hasByValue($compare)
+    {
+        return in_array($compare, $this->items);
+    }
+
+    /**
+     * Load the items by the add method.
+     *
+     * @param   array       $data       The items to load into the present list.
+     */
+    public function load(array $data)
+    {
+        foreach ($data as $item) {
+            $this->add($item);
+        }
+    }
+
 }
