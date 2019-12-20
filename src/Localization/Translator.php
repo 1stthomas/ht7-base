@@ -2,7 +2,7 @@
 
 namespace Ht7\Base\Localization;
 
-use \Ht7\Base\Validation\ExceptionTrigger;
+use \InvalidArgumentException;
 
 /**
  * This class tries to find a registered translator. If there can not be found
@@ -61,10 +61,12 @@ class Translator
 
                     return call_user_func_array('sprintf', $parameters);
                 default:
-                    ExceptionTrigger::class;
-                    break;
+                    $msg = 'Undefined translation type %s';
+                    $e = static::t(static::TRANSLATION_TYPE_CONTEXT, $msg, [$type], 'ht7-base-testing');
+
+                    throw new InvalidArgumentException($e);
             }
-        } else {
+//        } else {
             // @todo...
         }
     }

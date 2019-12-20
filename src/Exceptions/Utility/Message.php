@@ -2,7 +2,8 @@
 
 namespace Ht7\Base\Exceptions\Utility;
 
-use \Ht7\Base\Helpers\Strings;
+use \InvalidArgumentException;
+use \Ht7\Base\Utility\Strings;
 use \Ht7\Base\Localization\Translator;
 
 /**
@@ -64,10 +65,19 @@ class Message
         $parts = explode('\\', $class);
         $count = count($parts);
 
-        if ($count > 0) {
+        if ($class !== '' && $count > 0) {
             $name = str_replace('Exception', '', $parts[$count - 1]);
 
             return Strings::decamelize($name);
+        } else {
+            $e = Translator::t(
+                            Translator::TRANSLATION_TYPE_CONTEXT,
+                            '%s must not be empty.',
+                            ['Classname'],
+                            'ht7-base-testing'
+            );
+
+            throw new InvalidArgumentException($e);
         }
     }
 
@@ -93,6 +103,7 @@ class Message
             case 3:
             default:
                 $text = HelperMessages::INSTANCES_MT_TWO;
+                $instances = [implode(', ', $instances)];
                 break;
         }
 
@@ -100,21 +111,6 @@ class Message
                         Translator::TRANSLATION_TYPE_SIMPLE,
                         $text,
                         $instances
-        );
-    }
-
-    /**
-     * Get the translation for a list of primitiv datatypes.
-     *
-     * @param   array   $list           Indexed array of primitiv datatypes.
-     * @return  string                  The composed datatype string.
-     */
-    public static function getPrimitivs(array $list)
-    {
-        return Translator::t(
-                        Translator::TRANSLATION_TYPE_SIMPLE,
-                        HelperMessages::PRIMITIV_MT_ZERO,
-                        [implode(', ', $list)]
         );
     }
 
@@ -147,6 +143,21 @@ class Message
                             $arr
             );
         }
+    }
+
+    /**
+     * Get the translation for a list of primitiv datatypes.
+     *
+     * @param   array   $list           Indexed array of primitiv datatypes.
+     * @return  string                  The composed datatype string.
+     */
+    public static function getPrimitivs(array $list)
+    {
+        return Translator::t(
+                        Translator::TRANSLATION_TYPE_SIMPLE,
+                        HelperMessages::PRIMITIV_MT_ZERO,
+                        [implode(', ', $list)]
+        );
     }
 
 }
