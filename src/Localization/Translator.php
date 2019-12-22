@@ -50,6 +50,8 @@ class Translator
      */
     public static function t($type, $str, array $parameters, $context = '')
     {
+        $return = null;
+
         if (static::$translator === null) {
             // Until we can set this proper into the registry and get the current
             // translator interface, we do it this dirty way.
@@ -59,7 +61,8 @@ class Translator
                 case static::TRANSLATION_TYPE_PLURAL:
                     array_unshift($parameters, $str);
 
-                    return call_user_func_array('sprintf', $parameters);
+                    $return = call_user_func_array('sprintf', $parameters);
+                    break;
                 default:
                     $msg = 'Undefined translation type %s';
                     $e = static::t(static::TRANSLATION_TYPE_CONTEXT, $msg, [$type], 'ht7-base-testing');
@@ -69,6 +72,8 @@ class Translator
 //        } else {
             // @todo...
         }
+
+        return $return;
     }
 
 }
