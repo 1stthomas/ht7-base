@@ -14,23 +14,6 @@ use \InvalidArgumentException;
 class Translator
 {
 
-    /**
-     * This is for a simple translation, without context or further plural forms.
-     */
-    const TRANSLATION_TYPE_SIMPLE = 1;
-
-    /**
-     * This is a translation by context, to be able to use same texts for several
-     * different translations.
-     */
-    const TRANSLATION_TYPE_CONTEXT = 2;
-
-    /**
-     * This kind needs in minimum 2 text patterns, one for the singular and the
-     * second for the plural.
-     */
-    const TRANSLATION_TYPE_PLURAL = 3;
-
     protected static $translator;
 
     /**
@@ -82,16 +65,16 @@ class Translator
             // Until we can set this proper into the registry and get the current
             // translator interface, we do it this dirty way.
             switch ($type) {
-                case static::TRANSLATION_TYPE_SIMPLE:
-                case static::TRANSLATION_TYPE_CONTEXT:
-                case static::TRANSLATION_TYPE_PLURAL:
+                case TranslationTypes::TRANSLATION_TYPE_SIMPLE:
+                case TranslationTypes::TRANSLATION_TYPE_CONTEXT:
+                case TranslationTypes::TRANSLATION_TYPE_PLURAL:
                     array_unshift($parameters, $str);
 
                     $return = call_user_func_array('sprintf', $parameters);
                     break;
                 default:
                     $msg = 'Undefined translation type %s';
-                    $e = static::t(static::TRANSLATION_TYPE_CONTEXT, $msg, [$type], 'ht7-base-testing');
+                    $e = static::t(TranslationTypes::TRANSLATION_TYPE_CONTEXT, $msg, [$type], 'ht7-base-testing');
 
                     throw new InvalidArgumentException($e);
             }

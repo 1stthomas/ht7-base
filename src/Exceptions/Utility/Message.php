@@ -4,6 +4,7 @@ namespace Ht7\Base\Exceptions\Utility;
 
 use \InvalidArgumentException;
 use \Ht7\Base\Utility\Strings;
+use \Ht7\Base\Localization\TranslationTypes;
 use \Ht7\Base\Localization\Translator;
 
 /**
@@ -44,7 +45,7 @@ class Message
         array_push($parameters, $foundType);
 
         return Translator::t(
-                        Translator::TRANSLATION_TYPE_SIMPLE,
+                        TranslationTypes::TRANSLATION_TYPE_SIMPLE,
                         Messages::getConstant($index),
                         $parameters
         );
@@ -71,7 +72,7 @@ class Message
             return Strings::decamelize($name);
         } else {
             $e = Translator::t(
-                            Translator::TRANSLATION_TYPE_CONTEXT,
+                            TranslationTypes::TRANSLATION_TYPE_CONTEXT,
                             '%s must not be empty.',
                             ['Classname'],
                             'ht7-base-testing'
@@ -108,7 +109,7 @@ class Message
         }
 
         return Translator::t(
-                        Translator::TRANSLATION_TYPE_SIMPLE,
+                        TranslationTypes::TRANSLATION_TYPE_SIMPLE,
                         $text,
                         $instances
         );
@@ -138,7 +139,7 @@ class Message
             ];
 
             return Translator::t(
-                            Translator::TRANSLATION_TYPE_SIMPLE,
+                            TranslationTypes::TRANSLATION_TYPE_SIMPLE,
                             HelperMessages::INSTANCES_PRIMITIV,
                             $arr
             );
@@ -154,7 +155,7 @@ class Message
     public static function getPrimitivs(array $list)
     {
         return Translator::t(
-                        Translator::TRANSLATION_TYPE_SIMPLE,
+                        TranslationTypes::TRANSLATION_TYPE_SIMPLE,
                         HelperMessages::PRIMITIV_MT_ZERO,
                         [implode(', ', $list)]
         );
