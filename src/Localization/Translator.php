@@ -34,6 +34,32 @@ class Translator
     protected static $translator;
 
     /**
+     * Get the current translator.
+     *
+     * In case this property was not set, an instance of this class will be returned.
+     *
+     * @return type
+     */
+    public static function getTranslator()
+    {
+        if (empty(static::$translator)) {
+            static::$translator = new static();
+        }
+
+        return static::$translator;
+    }
+
+    /**
+     * Set the current translator.
+     *
+     * @param type $translator
+     */
+    public static function setTranslator($translator)
+    {
+        static::$translator = $translator;
+    }
+
+    /**
      * Translate a given text pattern with placeholders into a full text.
      *
      * @param   integer     $type       The translation type. Use one of the
