@@ -44,11 +44,7 @@ class Message
         // Append the invalid datatype/class.
         array_push($parameters, $foundType);
 
-        return Translator::t(
-                        TranslationTypes::TRANSLATION_TYPE_SIMPLE,
-                        Messages::getConstant($index),
-                        $parameters
-        );
+        return Translator::t(Messages::getConstant($index), $parameters);
     }
 
     /**
@@ -72,7 +68,6 @@ class Message
             return Strings::decamelize($name);
         } else {
             $e = Translator::t(
-                            TranslationTypes::TRANSLATION_TYPE_CONTEXT,
                             '%s must not be empty.',
                             ['Classname'],
                             'ht7-base-testing'
@@ -108,11 +103,7 @@ class Message
                 break;
         }
 
-        return Translator::t(
-                        TranslationTypes::TRANSLATION_TYPE_SIMPLE,
-                        $text,
-                        $instances
-        );
+        return Translator::t($text, $instances);
     }
 
     /**
@@ -138,11 +129,7 @@ class Message
                 static::getInstances($instances)
             ];
 
-            return Translator::t(
-                            TranslationTypes::TRANSLATION_TYPE_SIMPLE,
-                            HelperMessages::INSTANCES_PRIMITIV,
-                            $arr
-            );
+            return Translator::t(HelperMessages::INSTANCES_PRIMITIV, $arr);
         }
     }
 
@@ -155,7 +142,6 @@ class Message
     public static function getPrimitivs(array $list)
     {
         return Translator::t(
-                        TranslationTypes::TRANSLATION_TYPE_SIMPLE,
                         HelperMessages::PRIMITIV_MT_ZERO,
                         [implode(', ', $list)]
         );
