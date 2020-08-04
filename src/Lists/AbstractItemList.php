@@ -10,6 +10,9 @@ use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
  * the foreach loop.
  *
  * @author Thomas Pluess
+ * @since       0.0.1
+ * @version     0.0.1
+ * @copyright (c) 2020, Thomas Pluess
  */
 abstract class AbstractItemList implements ItemListable
 {
@@ -29,9 +32,7 @@ abstract class AbstractItemList implements ItemListable
     public abstract function add($item);
 
     /**
-     * Count elements of an object
-     *
-     * @return  integer                 The number of items of the present item list.
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -93,4 +94,8 @@ abstract class AbstractItemList implements ItemListable
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public abstract function merge(ItemListable $iL);
 }
