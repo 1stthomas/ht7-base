@@ -25,13 +25,31 @@ class HashList extends AbstractItemList
             $this->items[$item->getHash()] = $item;
         } else {
             // @todo: generalize the validation..
-            $msg = 'The item has to be an implementation of the ItemListable interface, found %s';
+            $msg = 'The item has to be an implementation of the HashListable interface, found %s';
             $e = sprintf($msg, gettype($item));
 
             throw new InvalidArgumentException($e);
         }
 
         return $this;
+    }
+
+    /**
+     * Merge an instance of an implementation of the <code>ItemListable</code>
+     * interface with the present one.
+     *
+     * This method will add all inexistent HashListable items into the present
+     * <code>HashList</code>.
+     */
+    public function merge(ItemListable $iL)
+    {
+        $this->items = array_merge($iL->getAll(), $this->getAll());
+
+//        foreach ($iL->getAll() as $key => $attribute) {
+//            if (!$this->has($key)) {
+//                $this->add($attribute);
+//            }
+//        }
     }
 
 }
