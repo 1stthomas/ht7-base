@@ -2,14 +2,14 @@
 
 namespace Ht7\Base\Tests\Implementations\Unit;
 
-use \Ht7\Base\Lists\HashListable;
+use \Ht7\Base\Lists\Hashable;
 
 /**
  * Description of EnumImplementation
  *
  * @author Thomas Pluess
  */
-class HashListItemImplementation implements HashListable
+class HashListItemImplementation implements Hashable
 {
 
     protected $hash;

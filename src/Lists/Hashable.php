@@ -6,7 +6,7 @@ namespace Ht7\Base\Lists;
  *
  * @author Thomas Pluess
  */
-interface HashListable
+interface Hashable
 {
 
     /**
