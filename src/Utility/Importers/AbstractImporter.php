@@ -1,13 +1,15 @@
 <?php
 
-namespace Ht7\Base\Utility\Importers\Files;
+namespace Ht7\Base\Utility\Importers;
+
+use \Ht7\Base\Utility\Importers\Importable;
 
 /**
  * Description of Importer
  *
  * @author Thomas Pluess
  */
-abstract class AbstractImporter
+abstract class AbstractImporter implements Importable
 {
 
     protected $items;

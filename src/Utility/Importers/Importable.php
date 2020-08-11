@@ -1,6 +1,6 @@
 <?php
 
-namespace Ht7\Base\Utility\Importers\Files;
+namespace Ht7\Base\Utility\Importers;
 
 /**
  *

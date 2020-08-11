@@ -2,7 +2,7 @@
 
 namespace Ht7\Base\Utility\Importers\Files;
 
-use \Ht7\Base\Utility\Importers\Files\AbstractImporter;
+use \Ht7\Base\Utility\Importers\AbstractImporter;
 
 /**
  * Description of Importer
