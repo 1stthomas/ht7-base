@@ -65,4 +65,11 @@ interface ItemListable extends Countable, IteratorAggregate
      *                                              merge with the present one.
      */
     public function merge(ItemListable $iL);
+
+    /**
+     * Remove the element with the present index from the list.
+     *
+     * @param   mixed       $index      The index of the element to remove.
+     */
+    public function remove($index);
 }

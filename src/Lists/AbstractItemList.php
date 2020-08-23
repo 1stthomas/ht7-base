@@ -98,4 +98,13 @@ abstract class AbstractItemList implements ItemListable
      * {@inheritdoc}
      */
     public abstract function merge(ItemListable $iL);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($index)
+    {
+        unset($this->items[$index]);
+    }
+
 }
