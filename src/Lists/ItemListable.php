@@ -37,6 +37,26 @@ interface ItemListable extends Countable, IteratorAggregate
     public function getAll();
 
     /**
+     * Get the next item relative to the present one in the sequence of the
+     * items array.
+     *
+     * @param   mixed       $index      The index of the previous item to the
+     *                                  one returned.
+     * @return  mixed                   The item.
+     */
+    public function getNext($index);
+
+    /**
+     * Get the previous item relative to the present one in the sequence of the
+     * items array.
+     *
+     * @param   mixed       $index      The index of the next item to the
+     *                                  one returned.
+     * @return  mixed                   The item.
+     */
+    public function getPrevious($index);
+
+    /**
      * Check if there is an item with the present index.
      *
      * @param   mixed   $index          The index to search the element with.

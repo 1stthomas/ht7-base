@@ -71,6 +71,22 @@ abstract class AbstractItemList implements ItemListable
     /**
      * {@inheritdoc}
      */
+    public function getNext($index)
+    {
+        return empty($index) ? null : $this->items[($index + 1)];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPrevious($index)
+    {
+        return empty($index) ? null : $this->items[($index - 1)];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function has($index)
     {
         return isset($this->items[$index]);

@@ -35,6 +35,48 @@ class HashList extends AbstractItemList
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getNext($index)
+    {
+        $keys = array_keys($this->items);
+        $cIndex = array_search($index, $keys);
+
+        if ($cIndex === false) {
+            $e = 'Invalid index: ' . $index;
+
+            throw new InvalidArgumentException($e);
+        } else {
+            if (count($keys) === ($cIndex + 1)) {
+                return null;
+            } else {
+                return $this->get($keys[$cIndex + 1]);
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPrevious($index)
+    {
+        $keys = array_keys($this->items);
+        $cIndex = array_search($index, $keys);
+
+        if ($cIndex === false) {
+            $e = 'Invalid index: ' . $index;
+
+            throw new InvalidArgumentException($e);
+        } else {
+            if ($cIndex === 0) {
+                return null;
+            } else {
+                return $this->get($keys[$cIndex - 1]);
+            }
+        }
+    }
+
+    /**
      * Merge an instance of an implementation of the <code>ItemListable</code>
      * interface with the present one.
      *

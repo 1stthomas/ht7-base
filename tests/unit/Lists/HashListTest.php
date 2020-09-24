@@ -81,6 +81,56 @@ class HashListTest extends TestCase
         $mock->add('123 yeah!');
     }
 
+    public function testGetNext()
+    {
+        $className = HashList::class;
+
+        $items = [
+            'test_1' => 'test 1',
+            'test_2' => 'test 2',
+            'test_3' => 'test 3',
+        ];
+
+        $stub = $this->getMockBuilder($className)
+                ->setMethods(['load'])
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $reflectedClass = new \ReflectionClass($className);
+        $property = $reflectedClass->getProperty('items');
+        $property->setAccessible(true);
+        $property->setValue($stub, $items);
+
+        $this->assertEquals('test 3', $stub->getNext('test_2'));
+
+        $this->assertEquals(null, $stub->getNext('test_3'));
+    }
+
+    public function testGetPrevious()
+    {
+        $className = HashList::class;
+
+        $items = [
+            'test_1' => 'test 1',
+            'test_2' => 'test 2',
+            'test_3' => 'test 3',
+        ];
+
+        $stub = $this->getMockBuilder($className)
+                ->setMethods(['load'])
+                ->disableOriginalConstructor()
+                ->getMock();
+
+        $reflectedClass = new \ReflectionClass($className);
+        $property = $reflectedClass->getProperty('items');
+        $property->setAccessible(true);
+        $property->setValue($stub, $items);
+
+        $this->assertEquals('test 1', $stub->getPrevious('test_2'));
+
+        $this->assertEquals(null, $stub->getPrevious('test_1'));
+    }
+
     public function testMerge()
     {
         $className = HashList::class;

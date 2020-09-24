@@ -78,6 +78,42 @@ class AbstractItemListTest extends TestCase
         $this->assertInstanceOf(\ArrayIterator::class, $stub->getIterator());
     }
 
+    public function testGetNext()
+    {
+        $className = AbstractItemList::class;
+
+        $items = [1, 20, 300, 4000, 50000];
+
+        $stub = $this->getMockForAbstractClass($className);
+
+        $reflectedClass = new \ReflectionClass($className);
+        $property = $reflectedClass->getProperty('items');
+        $property->setAccessible(true);
+        $property->setValue($stub, $items);
+
+        $this->assertEquals(50000, $stub->getNext(3));
+
+        $this->assertEquals(null, $stub->getNext(4));
+    }
+
+    public function testGetPrevious()
+    {
+        $className = AbstractItemList::class;
+
+        $items = [1, 20, 300, 4000, 50000];
+
+        $stub = $this->getMockForAbstractClass($className);
+
+        $reflectedClass = new \ReflectionClass($className);
+        $property = $reflectedClass->getProperty('items');
+        $property->setAccessible(true);
+        $property->setValue($stub, $items);
+
+        $this->assertEquals(300, $stub->getPrevious(3));
+
+        $this->assertEquals(null, $stub->getPrevious(0));
+    }
+
     public function testHas()
     {
         $className = AbstractItemList::class;
