@@ -90,9 +90,10 @@ class HashListTest extends TestCase
             'test_2' => 'test 2',
             'test_3' => 'test 3',
         ];
+        $indexInvalid = 'test_4';
 
         $stub = $this->getMockBuilder($className)
-                ->setMethods(['load'])
+                ->setMethods(['handleInvalidIndex'])
                 ->disableOriginalConstructor()
                 ->getMock();
 
@@ -104,6 +105,12 @@ class HashListTest extends TestCase
         $this->assertEquals('test 3', $stub->getNext('test_2'));
 
         $this->assertEquals(null, $stub->getNext('test_3'));
+
+        $stub->expects($this->once())
+                ->method('handleInvalidIndex')
+                ->with($indexInvalid);
+
+        $stub->getNext('test_4');
     }
 
     public function testGetPrevious()
@@ -115,9 +122,10 @@ class HashListTest extends TestCase
             'test_2' => 'test 2',
             'test_3' => 'test 3',
         ];
+        $indexInvalid = 'test_4';
 
         $stub = $this->getMockBuilder($className)
-                ->setMethods(['load'])
+                ->setMethods(['handleInvalidIndex'])
                 ->disableOriginalConstructor()
                 ->getMock();
 
@@ -129,6 +137,12 @@ class HashListTest extends TestCase
         $this->assertEquals('test 1', $stub->getPrevious('test_2'));
 
         $this->assertEquals(null, $stub->getPrevious('test_1'));
+
+        $stub->expects($this->once())
+                ->method('handleInvalidIndex')
+                ->with($indexInvalid);
+
+        $stub->getPrevious($indexInvalid);
     }
 
     public function testMerge()

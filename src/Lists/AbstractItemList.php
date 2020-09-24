@@ -3,6 +3,7 @@
 namespace Ht7\Base\Lists;
 
 use \ArrayIterator;
+use \InvalidArgumentException;
 use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
 
 /**
@@ -30,6 +31,11 @@ abstract class AbstractItemList implements ItemListable
      * {@inheritdoc}
      */
     public abstract function add($item);
+
+    /**
+     * {@inheritdoc}
+     */
+    public abstract function merge(ItemListable $iL);
 
     /**
      * {@inheritdoc}
@@ -113,14 +119,22 @@ abstract class AbstractItemList implements ItemListable
     /**
      * {@inheritdoc}
      */
-    public abstract function merge(ItemListable $iL);
-
-    /**
-     * {@inheritdoc}
-     */
     public function remove($index)
     {
         unset($this->items[$index]);
+    }
+
+    /**
+     * Throw an <code>InvalidArgumentException</code>.
+     *
+     * @param   mixed   $index              The invalid index.
+     * @throws InvalidArgumentException
+     */
+    protected function handleInvalidIndex($index)
+    {
+        $e = 'Invalid index: ' . $index;
+
+        throw new InvalidArgumentException($e);
     }
 
 }

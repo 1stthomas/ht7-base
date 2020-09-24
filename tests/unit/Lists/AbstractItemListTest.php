@@ -173,4 +173,45 @@ class AbstractItemListTest extends TestCase
         $stub->load($items);
     }
 
+    public function testRemove()
+    {
+        $className = AbstractItemList::class;
+        $items = [1, 2, 0, 3, 3, 4, 5];
+        $itemsNew = [
+            0 => 1,
+            1 => 2,
+            2 => 0,
+            3 => 3,
+            5 => 4,
+            6 => 5
+        ];
+
+        $stub = $this->getMockForAbstractClass($className);
+
+        $reflectedClass = new \ReflectionClass($className);
+        $property = $reflectedClass->getProperty('items');
+        $property->setAccessible(true);
+        $property->setValue($stub, $items);
+
+        $stub->remove(4);
+
+        $this->assertEquals($itemsNew, $property->getValue($stub));
+    }
+
+    public function testHandleInvalidIndex()
+    {
+        $className = AbstractItemList::class;
+
+        $stub = $this->getMockForAbstractClass($className);
+
+        $reflectedClass = new \ReflectionClass($className);
+        $method = $reflectedClass->getMethod('handleInvalidIndex');
+        $method->setAccessible(true);
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageRegExp('/Invalid index(.)+invalid_index/');
+
+        $method->invoke($stub, 'invalid_index');
+    }
+
 }

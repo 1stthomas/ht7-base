@@ -43,9 +43,7 @@ class HashList extends AbstractItemList
         $cIndex = array_search($index, $keys);
 
         if ($cIndex === false) {
-            $e = 'Invalid index: ' . $index;
-
-            throw new InvalidArgumentException($e);
+            $this->handleInvalidIndex($index);
         } else {
             if (count($keys) === ($cIndex + 1)) {
                 return null;
@@ -64,9 +62,7 @@ class HashList extends AbstractItemList
         $cIndex = array_search($index, $keys);
 
         if ($cIndex === false) {
-            $e = 'Invalid index: ' . $index;
-
-            throw new InvalidArgumentException($e);
+            $this->handleInvalidIndex($index);
         } else {
             if ($cIndex === 0) {
                 return null;
