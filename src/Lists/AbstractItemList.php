@@ -3,7 +3,7 @@
 namespace Ht7\Base\Lists;
 
 use \InvalidArgumentException;
-use \Ht7\Base\Iterators\SimpleIterator;
+use \Ht7\Base\Iterators\SimpleIndexIterator;
 use \Ht7\Base\Utility\Traits\CanRestrictInexVariables;
 
 /**
@@ -67,11 +67,11 @@ abstract class AbstractItemList implements ItemListable
      * This method is the implementation of the IteratorAggergate interface,
      * which makes this class accessable through the foreach loop.
      *
-     * @return  SimpleIterator
+     * @return  SimpleIndexIterator
      */
     public function getIterator()
     {
-        return new SimpleIterator($this->getAll());
+        return new SimpleIndexIterator($this->getAll());
     }
 
     /**

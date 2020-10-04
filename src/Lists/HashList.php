@@ -3,6 +3,7 @@
 namespace Ht7\Base\Lists;
 
 use \InvalidArgumentException;
+use \Ht7\Base\Iterators\SimpleAssocIterator;
 use \Ht7\Base\Lists\Hashable;
 
 /**
@@ -32,6 +33,16 @@ class HashList extends AbstractItemList
         }
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return SimpleAssocIterator
+     */
+    public function getIterator()
+    {
+        return new SimpleAssocIterator($this->getAll());
     }
 
     /**
@@ -82,12 +93,6 @@ class HashList extends AbstractItemList
     public function merge(ItemListable $iL)
     {
         $this->items = array_merge($iL->getAll(), $this->getAll());
-
-//        foreach ($iL->getAll() as $key => $attribute) {
-//            if (!$this->has($key)) {
-//                $this->add($attribute);
-//            }
-//        }
     }
 
 }

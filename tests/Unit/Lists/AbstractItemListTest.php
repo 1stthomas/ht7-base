@@ -3,7 +3,7 @@
 namespace Ht7\Base\Tests\Lists;
 
 use \PHPUnit\Framework\TestCase;
-use \Ht7\Base\Iterators\SimpleIterator;
+use \Ht7\Base\Iterators\SimpleIndexIterator;
 use \Ht7\Base\Lists\AbstractItemList;
 
 class AbstractItemListTest extends TestCase
@@ -74,9 +74,30 @@ class AbstractItemListTest extends TestCase
     public function testGetIterator()
     {
         $className = AbstractItemList::class;
-        $stub = $this->getMockForAbstractClass($className);
 
-        $this->assertInstanceOf(SimpleIterator::class, $stub->getIterator());
+        $items = [
+            'test_1' => 'test 1',
+            'test_2' => 'test 2',
+            'test_3' => 'test 3',
+        ];
+
+        $stub = $this->getMockBuilder($className)
+                ->setMethods(['getAll'])
+                ->disableOriginalConstructor()
+                ->getMockForAbstractClass();
+        $stub->expects($this->once())
+                ->method('getAll')
+                ->willReturn($items);
+
+        $it = $stub->getIterator();
+
+        $this->assertInstanceOf(SimpleIndexIterator::class, $it);
+
+        $reflectedClass = new \ReflectionClass(SimpleIndexIterator::class);
+        $property = $reflectedClass->getProperty('array');
+        $property->setAccessible(true);
+
+        $this->assertEquals($items, $property->getValue($it));
     }
 
     public function testGetNext()

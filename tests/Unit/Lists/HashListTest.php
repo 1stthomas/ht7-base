@@ -3,6 +3,7 @@
 namespace Ht7\Base\Tests\Lists;
 
 use \PHPUnit\Framework\TestCase;
+use \Ht7\Base\Iterators\SimpleAssocIterator;
 use \Ht7\Base\Lists\HashList;
 use \Ht7\Base\Tests\Implementations\Unit\HashListItemImplementation;
 
@@ -79,6 +80,35 @@ class HashListTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $mock->add('123 yeah!');
+    }
+
+    public function testGetIterator()
+    {
+        $className = HashList::class;
+
+        $items = [
+            'test_1' => 'test 1',
+            'test_2' => 'test 2',
+            'test_3' => 'test 3',
+        ];
+
+        $stub = $this->getMockBuilder($className)
+                ->setMethods(['getAll'])
+                ->disableOriginalConstructor()
+                ->getMock();
+        $stub->expects($this->once())
+                ->method('getAll')
+                ->willReturn($items);
+
+        $it = $stub->getIterator();
+
+        $this->assertInstanceOf(SimpleAssocIterator::class, $it);
+
+        $reflectedClass = new \ReflectionClass(SimpleAssocIterator::class);
+        $property = $reflectedClass->getProperty('array');
+        $property->setAccessible(true);
+
+        $this->assertEquals($items, $property->getValue($it));
     }
 
     public function testGetNext()

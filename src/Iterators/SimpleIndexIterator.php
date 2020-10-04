@@ -5,14 +5,25 @@ namespace Ht7\Base\Iterators;
 use \Iterator;
 
 /**
- * Description of SimpleIterator
+ * A simple iterator to provide the methods defined by the native <code>Iterator</code>
+ * interface.
  *
- * @author Thomas Pluess
+ * @author      Thomas Pluess
+ * @version     0.0.1
+ * @since       0.0.1
  */
-class SimpleIterator implements Iterator
+class SimpleIndexIterator implements Iterator
 {
 
+    /**
+     * @var     array               The array to iterate.
+     */
     protected $array;
+
+    /**
+     *
+     * @var     integer             The current position.
+     */
     protected $position;
 
     public function __construct(array $array)
@@ -20,14 +31,6 @@ class SimpleIterator implements Iterator
         $this->array = $array;
 
         $this->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->position = 0;
     }
 
     /**
@@ -52,6 +55,14 @@ class SimpleIterator implements Iterator
     public function next()
     {
         $this->position++;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        $this->position = 0;
     }
 
     /**
