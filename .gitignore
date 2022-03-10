@@ -4,3 +4,14 @@
 /tests/test.bat
 /tests/bootstrap.php
 /tests/run/
+/test01.php
+/tests/cache_test
+/php_errors.log
+/ht7-base__20191128_02.zip
+/test02.php
+/test11.php
+/tests/.phpunit.result.cache
+/tests/configuration_1.xml
+/tests/php_errors.log
+/tests/t1.php
+/tests/output/
