@@ -11,7 +11,6 @@ use \Ht7\Base\Utility\Traits\CanAddByPropertyName;
  */
 class CanAddByPropertyNameTest extends TestCase
 {
-
     public function testAddByPropertyName()
     {
         $items = [
@@ -23,7 +22,6 @@ class CanAddByPropertyNameTest extends TestCase
         {
 
             use CanAddByPropertyName;
-
             protected $testOne;
             protected $testTwo;
 
@@ -31,7 +29,6 @@ class CanAddByPropertyNameTest extends TestCase
             {
                 return $this->testOne = $test1;
             }
-
             public function setTestProperty2($test2)
             {
                 $this->testTwo = $test2;
@@ -53,15 +50,13 @@ class CanAddByPropertyNameTest extends TestCase
         $this->assertEquals($items['testProperty1'], $testProperty1->getValue($mock));
         $this->assertEquals($items['testProperty2'], $testProperty2->getValue($mock));
     }
-
     public function testAddByPropertyNameWithException()
     {
         $mock = $this->getMockForTrait(CanAddByPropertyName::class);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessageRegExp('/(U|u)nkown property(.)+unknownProperty/');
+        $this->expectExceptionMessageMatches('/(U|u)nkown property(.)+unknownProperty/');
 
         $mock->addByPropertyName('unknownProperty', 'value');
     }
-
 }
