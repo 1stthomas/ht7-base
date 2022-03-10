@@ -19,32 +19,27 @@ abstract class AbstractItemList implements ItemListable
 {
 
     use CanRestrictInexVariables;
-
     protected $items = [];
 
     public function __construct(array $data = [])
     {
         $this->load($data);
     }
-
     /**
      * {@inheritdoc}
      */
     public abstract function add($item);
-
     /**
      * {@inheritdoc}
      */
     public abstract function merge(ItemListable $iL);
-
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->getAll());
     }
-
     /**
      * {@inheritdoc}
      */
@@ -52,7 +47,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return $this->items[$index];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -60,7 +54,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return $this->items;
     }
-
     /**
      * Get an iterator.
      *
@@ -73,7 +66,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return new SimpleIndexIterator($this->getAll());
     }
-
     /**
      * {@inheritdoc}
      */
@@ -81,7 +73,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return empty($index) ? null : $this->items[($index + 1)];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -89,7 +80,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return empty($index) ? null : $this->items[($index - 1)];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -97,7 +87,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return isset($this->items[$index]);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -105,7 +94,6 @@ abstract class AbstractItemList implements ItemListable
     {
         return in_array($compare, $this->items);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -115,7 +103,6 @@ abstract class AbstractItemList implements ItemListable
             $this->add($item);
         }
     }
-
     /**
      * {@inheritdoc}
      */
@@ -123,7 +110,6 @@ abstract class AbstractItemList implements ItemListable
     {
         unset($this->items[$index]);
     }
-
     /**
      * Throw an <code>InvalidArgumentException</code>.
      *
@@ -136,5 +122,4 @@ abstract class AbstractItemList implements ItemListable
 
         throw new InvalidArgumentException($e);
     }
-
 }
