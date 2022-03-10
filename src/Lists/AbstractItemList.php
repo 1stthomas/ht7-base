@@ -62,7 +62,7 @@ abstract class AbstractItemList implements ItemListable
      *
      * @return  SimpleIndexIterator
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new SimpleIndexIterator($this->getAll());
     }
