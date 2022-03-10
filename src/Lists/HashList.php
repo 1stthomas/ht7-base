@@ -14,7 +14,6 @@ use \Ht7\Base\Lists\Hashable;
  */
 class HashList extends AbstractItemList
 {
-
     /**
      *
      * @param   Hashable    $item
@@ -34,17 +33,15 @@ class HashList extends AbstractItemList
 
         return $this;
     }
-
     /**
      * {@inheritdoc}
      *
      * @return SimpleAssocIterator
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new SimpleAssocIterator($this->getAll());
     }
-
     /**
      * {@inheritdoc}
      */
@@ -63,7 +60,6 @@ class HashList extends AbstractItemList
             }
         }
     }
-
     /**
      * {@inheritdoc}
      */
@@ -82,7 +78,6 @@ class HashList extends AbstractItemList
             }
         }
     }
-
     /**
      * Merge an instance of an implementation of the <code>ItemListable</code>
      * interface with the present one.
@@ -94,5 +89,4 @@ class HashList extends AbstractItemList
     {
         $this->items = array_merge($iL->getAll(), $this->getAll());
     }
-
 }
