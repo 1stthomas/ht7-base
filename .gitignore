@@ -3,7 +3,6 @@
 /tests/output/
 /tests/run/
 /tests/.phpunit.result.cache
-/tests/bootstrap.php
 /tests/configuration_1.xml
 /tests/php_errors.log
 /tests/t1.php
